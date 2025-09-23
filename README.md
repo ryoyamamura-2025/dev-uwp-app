@@ -31,9 +31,26 @@ UWP App の開発
       <controls:WebView2 Grid.Column="1" x:Name="MyWebView" Source="https:/hogehoge.hoge"/>
    </Grid>
    ```
-2. `MainPage.xaml.cs` では、WebView2ｎビューで取得した JavaScript の関数を実行する  
+2. `MainPage.xaml.cs` では、WebView2ｎビューで取得した JavaScript の関数を実行する（以下は画像データを渡して `displayScannedImage` という JavaScript の関数を実行する例）  
    ```
-   string script = $"displayScannedImage('{dataUriString}')";
-   await MyWebView.CoreWebView2.ExecuteScriptAsync(script);
+    // 1. ファイルをバイト配列に読み込む
+    IBuffer buffer = await FileIO.ReadBufferAsync(imageFile);
+    byte[] bytes = buffer.ToArray();
+
+    // 2. バイト配列をBase64文字列に変換
+    string base64String = Convert.ToBase64String(bytes);
+
+    // 3. JavaScriptで使えるようにデータURI形式の文字列を作成
+    //    'data:image/jpeg;base64,' の部分はファイルの形式に合わせて変更可能
+    string dataUriString = $"data:image/jpeg;base64,{base64String}";
+
+    // 4. 呼び出すJavaScriptコードを生成
+    //    文字列はシングルクォートで囲む
+    string script = $"displayScannedImage('{dataUriString}')";
+
+    // 5. WebView2上でJavaScriptを実行
+    await MyWebView.CoreWebView2.ExecuteScriptAsync(script);
+
+    System.Diagnostics.Debug.WriteLine("WebView2に画像を送信しました。");
    ```
 3. JavaScript 内で適切なエンドポイントを呼び出して API を叩けばサーバー上でのスキャンデータ等の処理をサーバーに渡すことが可能
