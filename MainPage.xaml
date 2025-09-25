@@ -36,14 +36,27 @@
                         Click="ExecuteScanButton_Click" 
                         HorizontalAlignment="Left"/>
             <TextBlock x:Name="ScannerStatusTextBlock" Text="「スキャナーを検索」ボタンを押してください"/>
-
             <Border BorderBrush="Gray" BorderThickness="1" Margin="0,10" Height="400">
                 <Image x:Name="ScannedImage" Stretch="Uniform"/>
             </Border>
+            <Button x:Name="ExecutePrintButton" 
+                    Content="プリント実行" 
+                    Click="ExecutePrintButton_Click"/>
+            <TextBlock x:Name="PrintStatusTextBlock" Text=""/>
         </StackPanel>
 
-        <controls:WebView2 Grid.Column="1" x:Name="MyWebView" Source="https://uwp-scannerapp-897239585193.us-central1.run.app/"/>
-
+        <StackPanel Grid.Column="1" Spacing="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="UrlTextBox" Header="表示したいWebページのURLを入力" Text="https://www.google.com" VerticalAlignment="Bottom"/>
+                <Button x:Name="GoButton" Content="移動" Grid.Column="1" Click="GoButton_Click" VerticalAlignment="Bottom"/>
+            </Grid>
+            <controls:WebView2 x:Name="MyWebView" Height="600"/>
+        </StackPanel>
+        
     </Grid>
 
 </Page>
