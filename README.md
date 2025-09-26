@@ -1,3 +1,5 @@
+**本リポジトリは [ScannerApp](https://github.com/ryoyamamura-2025/ScannerApp) リポジトリに移行しました**  
+---
 # dev-uwp-app
 UWP App の開発  
 
